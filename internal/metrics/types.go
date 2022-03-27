@@ -88,10 +88,10 @@ func (m RandomValue) Type() string {
 func (m RandomValue) String() string {
 	return fmt.Sprintf("%f", m.v)
 }
-func (m RandomValue) Get() float64 {
+func (m *RandomValue) Get() float64 {
 	return m.v
 }
-func (m RandomValue) Set(i float64) {
+func (m *RandomValue) Set(i float64) {
 	m.v = i
 }
 func (m *RandomValue) Scrape() error {
