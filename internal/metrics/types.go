@@ -25,6 +25,12 @@ type Gauge interface {
 	Set(float64)
 	Get() float64
 }
+type MetricType string
+
+const (
+	CounterType MetricType = "counter"
+	GaugeType   MetricType = "gauge"
+)
 
 const (
 	tPollCount = iota + 1
