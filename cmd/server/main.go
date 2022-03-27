@@ -8,8 +8,8 @@ import (
 	"time"
 
 	"github.com/gopherlearning/go-advanced-devops/cmd/server/handlers"
-	"github.com/gopherlearning/go-advanced-devops/cmd/server/server"
 	"github.com/gopherlearning/go-advanced-devops/cmd/server/storage"
+	"github.com/gopherlearning/go-advanced-devops/cmd/server/web"
 )
 
 const (
@@ -20,7 +20,7 @@ const (
 func main() {
 	store := storage.NewStorage()
 	h := handlers.NewHandler(store)
-	s := server.NewServer(serverAddr+":"+serverPort, h)
+	s := web.NewServer(serverAddr+":"+serverPort, h)
 
 	terminate := make(chan os.Signal, 1)
 	signal.Notify(terminate, syscall.SIGINT, syscall.SIGQUIT, syscall.SIGTERM)

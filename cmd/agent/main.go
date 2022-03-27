@@ -13,7 +13,7 @@ import (
 
 const (
 	pollInterval   = 2 * time.Second
-	reportInterval = 3 * time.Second
+	reportInterval = 10 * time.Second
 	serverAddr     = "127.0.0.1"
 	serverPort     = "8080"
 )
