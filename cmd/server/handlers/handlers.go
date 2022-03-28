@@ -21,10 +21,10 @@ func (h *Handler) Update(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Only POST requests are allowed!", http.StatusMethodNotAllowed)
 		return
 	}
-	if r.Header.Get("Content-Type") != "text/plain" {
-		http.Error(w, "Only text/plain content are allowed!", http.StatusBadRequest)
-		return
-	}
+	// if r.Header.Get("Content-Type") != "text/plain" {
+	// 	http.Error(w, "Only text/plain content are allowed!", http.StatusBadRequest)
+	// 	return
+	// }
 	target := strings.Split(r.RemoteAddr, ":")[0]
 	if err := h.s.Update(target, r.RequestURI); err != nil {
 		switch err {
