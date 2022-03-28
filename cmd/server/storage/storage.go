@@ -26,7 +26,7 @@ func NewStorage() *Storage {
 	}
 }
 
-var rMetricURL = regexp.MustCompile(`^.*\/(gauge|counter)\/(\w+)\/(-?[0-9\.]+)$`)
+var rMetricURL = regexp.MustCompile(`^.*\/(\w+)\/(\w+)\/(-?[0-9\.]+)$`)
 var _ repositories.Repository = new(Storage)
 
 func (s *Storage) Update(target string, metric string) error {
@@ -42,18 +42,15 @@ func (s *Storage) Update(target string, metric string) error {
 	metricValue := match[3]
 
 	if _, ok := s.v[metricType]; !ok {
-		return repositories.ErrBadMetric
+		return repositories.ErrWrongMetricType
 	}
 	s.mu.Lock()
 	defer s.mu.Unlock()
 	if _, ok := s.v[metricType][metricName]; !ok {
 		s.v[metricType][metricName] = make(map[string]interface{})
-		// s.mu.Unlock()
 	}
 	if _, ok := s.v[metricType][metricName][target]; !ok {
-		// s.mu.Lock()
 		s.v[metricType][metricName][target] = nil
-		// s.mu.Unlock()
 	}
 	switch metricType {
 	case metrics.CounterType:
@@ -62,17 +59,13 @@ func (s *Storage) Update(target string, metric string) error {
 			return repositories.ErrWrongMetricType
 		}
 		if s.v[metricType][metricName][target] == nil {
-			// s.mu.Lock()
 			s.v[metricType][metricName][target] = make([]int, 0)
-			// s.mu.Unlock()
 		}
 		mm, ok := s.v[metricType][metricName][target].([]int)
 		if !ok {
 			return repositories.ErrWrongMetricType
 		}
-		// s.mu.Lock()
 		s.v[metricType][metricName][target] = append(mm, m)
-		// s.mu.Unlock()
 	case metrics.GaugeType:
 		m, err := strconv.ParseFloat(metricValue, 64)
 		if err != nil {

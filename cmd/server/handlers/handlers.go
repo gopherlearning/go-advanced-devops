@@ -28,8 +28,10 @@ func (h *Handler) Update(w http.ResponseWriter, r *http.Request) {
 	target := strings.Split(r.RemoteAddr, ":")[0]
 	if err := h.s.Update(target, r.RequestURI); err != nil {
 		switch err {
-		case repositories.ErrBadMetric, repositories.ErrWrongMetricType:
-			w.WriteHeader(http.StatusBadRequest)
+		case repositories.ErrBadMetric:
+			w.WriteHeader(http.StatusNotFound)
+		case repositories.ErrWrongMetricType:
+			w.WriteHeader(http.StatusNotImplemented)
 		default:
 			w.WriteHeader(http.StatusInternalServerError)
 		}

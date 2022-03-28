@@ -129,7 +129,7 @@ func TestStorage_Update(t *testing.T) {
 				metric: "/gauge/BlaBla/123.456",
 			},
 			storage: &Storage{v: map[metrics.MetricType]map[string]map[string]interface{}{}},
-			err:     repositories.ErrBadMetric,
+			err:     repositories.ErrWrongMetricType,
 		},
 		{
 			name: "Правильная метрика gauge",

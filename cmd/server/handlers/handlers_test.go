@@ -97,7 +97,7 @@ func TestHandler_Update(t *testing.T) {
 			request1: "/update/sumator/PollCount/2",
 			request2: "/update/sumator/PollCount/3",
 			want: want{
-				statusCode: http.StatusBadRequest,
+				statusCode: http.StatusAccepted,
 				body:       "wrong metric format",
 				value1:     nil,
 				value2:     nil,
@@ -118,7 +118,7 @@ func TestHandler_Update(t *testing.T) {
 			},
 		},
 	}
-	var rMetricURL = regexp.MustCompile(`^.*\/(gauge|counter)\/(\w+)\/([0-9\.]+)$`)
+	var rMetricURL = regexp.MustCompile(`^.*\/(\w+)\/(\w+)\/([0-9\.]+)$`)
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
